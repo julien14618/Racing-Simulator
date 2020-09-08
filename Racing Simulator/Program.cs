@@ -6,7 +6,7 @@ namespace Racing_Simulator
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Hello World! on development version 2");
         }
     }
 }
