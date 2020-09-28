@@ -8,7 +8,12 @@ namespace Model
         public Queue<Track> Tracks { get; set; }
         public Track NextTrack()
         {
-            return new Track(null,null);
+            Track returnTrack = null;
+            if(Tracks.Count > 0)
+            {
+                returnTrack = Tracks.Dequeue();
+            }
+            return returnTrack;
         }
     }
 }

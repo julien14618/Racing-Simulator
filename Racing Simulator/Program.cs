@@ -1,12 +1,19 @@
-﻿using System;
+﻿using Controller;
+using System;
+using Model;
 
 namespace Racing_Simulator
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World! on development version 2");
+            
+            Data.Initialize();
+            Data.NextRace();
+            Console.WriteLine(Data.CurrentRace.Track.Name);
+            Data.NextRace();
+            Console.WriteLine(Data.CurrentRace.Track.Name);
         }
     }
 }
