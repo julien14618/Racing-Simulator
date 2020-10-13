@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Model
 {
@@ -6,14 +7,28 @@ namespace Model
     {
         public List<IParticipant> Participants { get; set; }
         public Queue<Track> Tracks { get; set; }
+
         public Track NextTrack()
         {
-            Track returnTrack = null;
-            if(Tracks.Count > 0)
+            if (Tracks.Count() > 0)
             {
-                returnTrack = Tracks.Dequeue();
+                return Tracks.Dequeue();
             }
-            return returnTrack;
+            return null;
+        }
+
+        public Competition(List<IParticipant> participants, Queue<Track> tracks)
+        {
+            Tracks = new Queue<Track>();
+            Participants = new List<IParticipant>();
+            Participants = participants;
+            Tracks = tracks;
+        }
+
+        public Competition()
+        {
+            Tracks = new Queue<Track>();
+            Participants = new List<IParticipant>();
         }
     }
 }

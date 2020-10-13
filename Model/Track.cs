@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using static Model.Section;
 
 namespace Model
 {
@@ -7,17 +6,23 @@ namespace Model
     {
         public string Name { get; set; }
         public LinkedList<Section> Sections { get; set; }
+
         public Track(string name, SectionTypes[] sections)
         {
             Name = name;
             Sections = new LinkedList<Section>();
-            foreach(SectionTypes s in sections)
+            if(sections != null)
+                Sections = ConvertArrayToLinkedList(sections);
+        }
+        public LinkedList<Section> ConvertArrayToLinkedList(SectionTypes[] sectionTypes)
+        {
+            LinkedList<Section> sections = new LinkedList<Section>();
+            foreach(var c in sectionTypes)
             {
-                Section s1 = new Section();
-                s1.SectionType = s;
-                Sections.AddLast(s1);
+                Section newSection = new Section(c);
+                sections.AddLast(newSection);
             }
-           
+            return sections;
         }
     }
 }
