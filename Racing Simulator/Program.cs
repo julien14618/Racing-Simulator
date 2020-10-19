@@ -1,5 +1,4 @@
 ﻿using Controller;
-using Model;
 using System;
 
 namespace Racing_Simulator
@@ -13,6 +12,8 @@ namespace Racing_Simulator
             Console.WriteLine(Data.CurrentRace.Track.Name);
             Data.NextRace();
             Console.WriteLine(Data.CurrentRace.Track.Name);
+            Data.NextRace();
+            Data.CurrentRace.SetParticipants();
             Visualisatie.DrawTrack(Data.CurrentRace.Track);
         }
     }
