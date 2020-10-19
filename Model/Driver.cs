@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Model
+﻿namespace Model
 {
     public class Driver : IParticipant
     {
@@ -10,5 +6,11 @@ namespace Model
         public int Points { get; set; }
         public IEquipment Equipment { get; set; }
         public TeamColors TeamColor { get; set; }
+
+        public Driver()
+        {
+            Name = "";
+            Points = 0;
+        }
     }
 }

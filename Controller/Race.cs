@@ -1,17 +1,44 @@
 ﻿using Model;
+using Racing_Simulator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 
 namespace Controller
 {
     public class Race
     {
+        private Timer timer;
+
+        public event EventHandler<DriversChangedEventArgs> DriversChanged;
+        int test = 0;
         public Race(Track track, List<IParticipant> participants)
         {
             Participants = participants;
             Track = track;
+            timer = new Timer(2000);
+            timer.Elapsed += OnTimedEvent;
             _random = new Random(DateTime.Now.Millisecond);
+            DriversChanged += Visualisatie.DriverChanged;
+        }
+
+        public void start()
+        {
+            timer.Start();
+        }
+
+        public void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            test++;
+            if (test > Data.CurrentRace.Track.Sections.Count-1)
+                test = 0;
+            DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
+            _positions.TryGetValue(Data.CurrentRace.Track.Sections.ElementAt(test), out SectionData sd);
+            string testName = sd.Left.Name;
+            sd.Left.Name = "";
+            _positions.TryGetValue(Data.CurrentRace.Track.Sections.ElementAt(test+1), out SectionData sd1);
+            sd1.Left.Name = testName;
         }
 
         public Track Track { get; set; }

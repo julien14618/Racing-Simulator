@@ -39,6 +39,11 @@ namespace Racing_Simulator
                 y++;
             }
         }
+        public static void DriverChanged(Object sender, DriversChangedEventArgs driverschangedEventArgs)
+        {
+            DrawTrack(driverschangedEventArgs.Track);
+            
+        }
 
         public static void DrawTrack(Track track)
         {
@@ -136,16 +141,16 @@ namespace Racing_Simulator
                     startY -= 4;
                 }
             }
-            Console.SetCursorPosition(100, 100);
+            Console.SetCursorPosition(0, 50);
             Console.WriteLine("");
         }
 
         public static string placeParticipant(string s, IParticipant p1, IParticipant p2)
         {
             string returnString = s;
-            if (s.Contains('1'))
+            if (s.Contains('1') && p1 != null && p1.Name.Length > 0)
                 returnString = returnString.Replace('1', p1.Name.First());
-            if (s.Contains('2'))
+            if (s.Contains('2') && p2 != null && p2.Name.Length > 0)
                 returnString = returnString.Replace('2', p2.Name.First());
             return returnString;
         }

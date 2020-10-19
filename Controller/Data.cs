@@ -30,29 +30,24 @@ namespace Controller
             Driver d2 = new Driver();
             Driver d3 = new Driver();
             Driver d4 = new Driver();
-            Driver d5 = new Driver();
-            Driver d6 = new Driver();
             
             d3.Name = "CDriver 3";
             d4.Name = "DDriver 4";
             d2.Name = "BDriver 2";
             d1.Name = "ADriver 1";
-            d5.Name = "EDriver 5";
-            d6.Name = "FDriver 6";
+            
             
             d3.Points = 50;
             d4.Points = 70;
             d2.Points = 75;
             d1.Points = 5;
-            d5.Points = 500;
-            d6.Points = 1;
+            
 
             Competition.Participants.Add(d1);
             Competition.Participants.Add(d2);
             Competition.Participants.Add(d3);
             Competition.Participants.Add(d4);
-            Competition.Participants.Add(d5);
-            Competition.Participants.Add(d6);
+            
             
         }
 
