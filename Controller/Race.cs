@@ -12,12 +12,14 @@ namespace Controller
         private Timer timer;
 
         public event EventHandler<DriversChangedEventArgs> DriversChanged;
-        int test = 0;
+
+        //private int test = 1;
+
         public Race(Track track, List<IParticipant> participants)
         {
             Participants = participants;
             Track = track;
-            timer = new Timer(2000);
+            timer = new Timer(100);
             timer.Elapsed += OnTimedEvent;
             _random = new Random(DateTime.Now.Millisecond);
             DriversChanged += Visualisatie.DriverChanged;
@@ -30,15 +32,41 @@ namespace Controller
 
         public void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            test++;
-            if (test > Data.CurrentRace.Track.Sections.Count-1)
-                test = 0;
-            DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
-            _positions.TryGetValue(Data.CurrentRace.Track.Sections.ElementAt(test), out SectionData sd);
-            string testName = sd.Left.Name;
-            sd.Left.Name = "";
-            _positions.TryGetValue(Data.CurrentRace.Track.Sections.ElementAt(test+1), out SectionData sd1);
-            sd1.Left.Name = testName;
+            for (int i = 0; i < Data.CurrentRace.Track.Sections.Count; i++)
+            {
+                _positions.TryGetValue(Data.CurrentRace.Track.Sections.ElementAt(i), out SectionData sd);
+                if (sd.Left.Name.Length > 0)
+                {
+                    var distanceCrossed = sd.Left.Equipment.Performance + sd.Left.Equipment.Speed;
+                    sd.DistanceLeft += distanceCrossed;
+                }
+                if (sd.Right.Name.Length > 0)
+                {
+                    var distanceCrossed = sd.Right.Equipment.Performance + sd.Right.Equipment.Speed;
+                    sd.DistanceRight += distanceCrossed;
+                }
+                int setAtNextSection = i + 1;
+                if (setAtNextSection == Data.CurrentRace.Track.Sections.Count)
+                    setAtNextSection = 0;
+                if (sd.DistanceLeft >= 100)
+                {
+                    sd.DistanceLeft -= 100;
+                    _positions.TryGetValue(Data.CurrentRace.Track.Sections.ElementAt(setAtNextSection), out SectionData sd1);   
+                    
+                    sd1.Left = sd.Left;
+                    sd.Left = new Driver();
+                    DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
+                }
+                if (sd.DistanceRight >= 100)
+                {
+                    sd.DistanceRight -= 100;
+                    _positions.TryGetValue(Data.CurrentRace.Track.Sections.ElementAt(setAtNextSection), out SectionData sd1); ;
+                    sd1.Right = sd.Right;
+                    sd.Right = new Driver();
+                    DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
+                }
+            }
+            
         }
 
         public Track Track { get; set; }

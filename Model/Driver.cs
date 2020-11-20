@@ -11,6 +11,8 @@
         {
             Name = "";
             Points = 0;
+            Equipment = new Car();
+            TeamColor = TeamColors.Blue;
         }
     }
 }

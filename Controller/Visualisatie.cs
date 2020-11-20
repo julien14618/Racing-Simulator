@@ -39,10 +39,10 @@ namespace Racing_Simulator
                 y++;
             }
         }
+
         public static void DriverChanged(Object sender, DriversChangedEventArgs driverschangedEventArgs)
         {
             DrawTrack(driverschangedEventArgs.Track);
-            
         }
 
         public static void DrawTrack(Track track)
@@ -55,21 +55,21 @@ namespace Racing_Simulator
                 if (direction.Equals(Directions.East))
                 {
                     if (c.SectionType.Equals(SectionTypes.Finish))
-                        printSection(checkString(c,_finishHorizontal), startX, startY);
+                        printSection(checkString(c, _finishHorizontal), startX, startY);
                     if (c.SectionType.Equals(SectionTypes.StartGrid))
-                        printSection(checkString(c,_startHorizontal), startX, startY);
+                        printSection(checkString(c, _startHorizontal), startX, startY);
                     if (c.SectionType.Equals(SectionTypes.Straight))
-                        printSection(checkString(c,_straightHorizontal), startX, startY);
+                        printSection(checkString(c, _straightHorizontal), startX, startY);
                     if (c.SectionType.Equals(SectionTypes.RightCorner))
                     {
-                        printSection(checkString(c,_bochtRightFromEast), startX, startY);
+                        printSection(checkString(c, _bochtRightFromEast), startX, startY);
                         direction++;
                         startY += 4;
                         continue;
                     }
                     if (c.SectionType.Equals(SectionTypes.LeftCorner))
                     {
-                        printSection(checkString(c,_bochtLeftFromEast), startX, startY);
+                        printSection(checkString(c, _bochtLeftFromEast), startX, startY);
                         direction--;
                         startY -= 4;
                         continue;
@@ -79,17 +79,17 @@ namespace Racing_Simulator
                 if (direction == Directions.South)
                 {
                     if (c.SectionType.Equals(SectionTypes.Straight))
-                        printSection(checkString(c,_straightVertical), startX, startY);
+                        printSection(checkString(c, _straightVertical), startX, startY);
                     if (c.SectionType.Equals(SectionTypes.RightCorner))
                     {
-                        printSection(checkString(c,_bochtRightFromSouth), startX, startY);
+                        printSection(checkString(c, _bochtRightFromSouth), startX, startY);
                         direction++;
                         startX -= 4;
                         continue;
                     }
                     if (c.SectionType.Equals(SectionTypes.LeftCorner))
                     {
-                        printSection(checkString(c,_bochtLeftFromSouth), startX, startY);
+                        printSection(checkString(c, _bochtLeftFromSouth), startX, startY);
                         direction--;
                         startX += 4;
                         continue;
@@ -99,21 +99,21 @@ namespace Racing_Simulator
                 if (direction == Directions.West)
                 {
                     if (c.SectionType.Equals(SectionTypes.Finish))
-                        printSection(checkString(c,_finishHorizontal), startX, startY);
+                        printSection(checkString(c, _finishHorizontal), startX, startY);
                     if (c.SectionType.Equals(SectionTypes.StartGrid))
-                        printSection(checkString(c,_startHorizontal), startX, startY);
+                        printSection(checkString(c, _startHorizontal), startX, startY);
                     if (c.SectionType.Equals(SectionTypes.Straight))
-                        printSection(checkString(c,_straightHorizontal), startX, startY);
+                        printSection(checkString(c, _straightHorizontal), startX, startY);
                     if (c.SectionType.Equals(SectionTypes.RightCorner))
                     {
-                        printSection(checkString(c,_bochtRightFromWest), startX, startY);
+                        printSection(checkString(c, _bochtRightFromWest), startX, startY);
                         direction = Directions.North;
                         startY -= 4;
                         continue;
                     }
                     if (c.SectionType.Equals(SectionTypes.LeftCorner))
                     {
-                        printSection(checkString(c,_bochtLeftFromWest), startX, startY);
+                        printSection(checkString(c, _bochtLeftFromWest), startX, startY);
                         direction--;
                         startY += 4;
                         continue;
@@ -123,17 +123,17 @@ namespace Racing_Simulator
                 if (direction == Directions.North)
                 {
                     if (c.SectionType.Equals(SectionTypes.Straight))
-                        printSection(checkString(c,_straightVertical), startX, startY);
+                        printSection(checkString(c, _straightVertical), startX, startY);
                     if (c.SectionType.Equals(SectionTypes.RightCorner))
                     {
-                        printSection(checkString(c,_bochtRightFromNorth), startX, startY);
+                        printSection(checkString(c, _bochtRightFromNorth), startX, startY);
                         direction++;
                         startX += 4;
                         continue;
                     }
                     if (c.SectionType.Equals(SectionTypes.LeftCorner))
                     {
-                        printSection(checkString(c,_bochtLeftFromNorth), startX, startY);
+                        printSection(checkString(c, _bochtLeftFromNorth), startX, startY);
                         direction = Directions.West;
                         startX -= 4;
                         continue;
@@ -148,6 +148,14 @@ namespace Racing_Simulator
         public static string placeParticipant(string s, IParticipant p1, IParticipant p2)
         {
             string returnString = s;
+            if (p1.Name.Count() <= 0 || p1 == null)
+            {
+                returnString = returnString.Replace('1', ' ');
+            }
+            if (p2.Name.Count() <= 0 || p2 == null)
+            {
+                returnString = returnString.Replace('2', ' ');
+            }
             if (s.Contains('1') && p1 != null && p1.Name.Length > 0)
                 returnString = returnString.Replace('1', p1.Name.First());
             if (s.Contains('2') && p2 != null && p2.Name.Length > 0)
@@ -158,6 +166,7 @@ namespace Racing_Simulator
         public static string[] checkString(Section c, string[] vs)
         {
             string[] returnString = new string[4];
+            Data.CurrentRace.GetSectionData(c);
             if (Data.CurrentRace.GetSectionData(c) != null)
             {
                 int i = 0;
