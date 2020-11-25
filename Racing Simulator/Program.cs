@@ -7,17 +7,14 @@ namespace Racing_Simulator
     {
         private static void Main(string[] args)
         {
+            Console.SetWindowSize(100, 60);
             Data.Initialize();
             Data.NextRace();
-            Console.WriteLine(Data.CurrentRace.Track.Name);
-            Data.NextRace();
-            Console.WriteLine(Data.CurrentRace.Track.Name);
-            Data.NextRace();
             Data.CurrentRace.SetParticipants();
-            Visualisatie.DrawTrack(Data.CurrentRace.Track);
+            //Visualisatie.DrawTrack(Data.CurrentRace.Track);
 
             //Visualisatie.DriverChanged(null, new Model.DriversChangedEventArgs(Data.CurrentRace.Track));
-            Data.CurrentRace.start();
+            Data.CurrentRace.Start();
             Console.ReadLine();
         }
     }

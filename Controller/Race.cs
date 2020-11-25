@@ -13,21 +13,97 @@ namespace Controller
 
         public event EventHandler<DriversChangedEventArgs> DriversChanged;
 
-        //private int test = 1;
+        public event EventHandler<RaceFinishedEventArgs> RaceFinished;
+
+        private int amountOfRounds = 2;
+        public Dictionary<Driver, int> roundsPerDriver = new Dictionary<Driver, int>();
 
         public Race(Track track, List<IParticipant> participants)
         {
             Participants = participants;
             Track = track;
-            timer = new Timer(100);
+            timer = new Timer(120);
             timer.Elapsed += OnTimedEvent;
             _random = new Random(DateTime.Now.Millisecond);
             DriversChanged += Visualisatie.DriverChanged;
+            RaceFinished += Data.Competition.RaceFinished;
         }
 
-        public void start()
+        public void Start()
         {
             timer.Start();
+            DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
+            for (int i = 0; i < Data.CurrentRace.Track.Sections.Count; i++)
+            {
+                _positions.TryGetValue(Data.CurrentRace.Track.Sections.ElementAt(i), out SectionData sd);
+                roundsPerDriver.TryAdd((Driver)sd.Left, 0);
+                roundsPerDriver.TryAdd((Driver)sd.Right, 0);
+            }
+        }
+
+        private bool startnew;
+
+        public void CheckCleanUpAndStartNewRace()
+        {
+            startnew = true;
+            for (int i = 0; i < Data.CurrentRace.Track.Sections.Count; i++)
+            {
+                _positions.TryGetValue(Data.CurrentRace.Track.Sections.ElementAt(i), out SectionData sd);
+                if (sd.Left.Name.Length > 0 || sd.Right.Name.Length > 0)
+                    startnew = false;
+            }
+            if (startnew)
+            {
+                Console.Clear();
+                timer.Stop();
+                DriversChanged = null;
+                //Add points to list and reset every round
+                List<IParticipant> pBuffer = Data.Competition.Participants.FindAll(p => p.Name.Length > 0);
+                RaceFinished?.Invoke(this, new RaceFinishedEventArgs(pBuffer));
+                Data.Competition.Participants.ForEach(p => p.Points = 0);
+
+                Data.NextRace();
+                if (Data.CurrentRace == null)
+                {
+                    Data.Competition.printResults();
+                }
+                else
+                {
+                    Data.CurrentRace.SetParticipants();
+                    Data.CurrentRace.Start();
+                }
+            }
+        }
+
+        public bool IsBrokenOrFixed(string breakOrFix)
+        {
+            Random r = new Random();
+            int brokenOrFixedInt = 0;
+            if (breakOrFix == "Break")
+                brokenOrFixedInt = 10;
+            if (breakOrFix == "Fix")
+                brokenOrFixedInt = 10;
+            if (r.Next(0, 100) < brokenOrFixedInt)
+                return true;
+            return false;
+        }
+
+        private int positionFinished = 1;
+
+        public void AwardPoints(SectionData sd, string leftOrRight)
+        {
+            int maxPoints = 100;
+
+            if (leftOrRight.Equals("Left"))
+            {
+                sd.Left.Points += (maxPoints / positionFinished);
+                positionFinished++;
+            }
+            if (leftOrRight.Equals("Right"))
+            {
+                sd.Right.Points += (maxPoints / positionFinished);
+                positionFinished++;
+            }
         }
 
         public void OnTimedEvent(Object source, ElapsedEventArgs e)
@@ -35,38 +111,112 @@ namespace Controller
             for (int i = 0; i < Data.CurrentRace.Track.Sections.Count; i++)
             {
                 _positions.TryGetValue(Data.CurrentRace.Track.Sections.ElementAt(i), out SectionData sd);
-                if (sd.Left.Name.Length > 0)
-                {
-                    var distanceCrossed = sd.Left.Equipment.Performance + sd.Left.Equipment.Speed;
-                    sd.DistanceLeft += distanceCrossed;
-                }
-                if (sd.Right.Name.Length > 0)
-                {
-                    var distanceCrossed = sd.Right.Equipment.Performance + sd.Right.Equipment.Speed;
-                    sd.DistanceRight += distanceCrossed;
-                }
+                if (sd.Left.Equipment.IsBroken)
+                    if (IsBrokenOrFixed("Fix"))
+                    {
+                        sd.Left.Equipment.IsBroken = false;
+                    }
+                if (sd.Right.Equipment.IsBroken)
+                    if (IsBrokenOrFixed("Fix"))
+                    {
+                        sd.Right.Equipment.IsBroken = false;
+                    }
                 int setAtNextSection = i + 1;
                 if (setAtNextSection == Data.CurrentRace.Track.Sections.Count)
                     setAtNextSection = 0;
-                if (sd.DistanceLeft >= 100)
+                _positions.TryGetValue(Data.CurrentRace.Track.Sections.ElementAt(setAtNextSection), out SectionData sd1);
+                if (sd.Left.Name.Length > 0 && !sd.Left.Equipment.IsBroken)
                 {
-                    sd.DistanceLeft -= 100;
-                    _positions.TryGetValue(Data.CurrentRace.Track.Sections.ElementAt(setAtNextSection), out SectionData sd1);   
-                    
-                    sd1.Left = sd.Left;
-                    sd.Left = new Driver();
-                    DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
+                    var distanceCrossed = sd.Left.Equipment.Performance * sd.Left.Equipment.Speed;
+                    sd.DistanceLeft += distanceCrossed;
+                    if (sd.DistanceLeft >= 100)
+                    {
+                        if (IsBrokenOrFixed("Break"))
+                        {
+                            sd.Left.Equipment.IsBroken = true;
+                        }
+                        else
+                        {
+                            if (Data.CurrentRace.Track.Sections.ElementAt(setAtNextSection).SectionType == SectionTypes.Finish)
+                            {
+                                roundsPerDriver[(Driver)sd.Left]++;
+                                if (roundsPerDriver[(Driver)sd.Left] == amountOfRounds)
+                                {
+                                    AwardPoints(sd, "Left");
+                                    sd.Left = new Driver();
+                                }
+                            }
+                            sd.DistanceLeft = 0;
+                            //naar volgende sectie gaan niet mogelijk
+                            if (sd1.Left.Name.Length > 1)
+                            {
+                                //andere kant volgnede sectie ook bezet
+                                if (sd1.Right.Name.Length > 0)
+                                {
+                                    sd.DistanceLeft = 99;
+                                }
+                                else if (sd1.Right.Name.Length == 0)
+                                {
+                                    sd1.Right = sd.Left;
+                                    sd.Left = new Driver();
+                                }
+                            }
+                            else
+                            {
+                                sd1.Left = sd.Left;
+                                sd.Left = new Driver();
+                            }
+                        }
+                        DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
+                    }
                 }
-                if (sd.DistanceRight >= 100)
+                if (sd.Right.Name.Length > 0 && !sd.Right.Equipment.IsBroken)
                 {
-                    sd.DistanceRight -= 100;
-                    _positions.TryGetValue(Data.CurrentRace.Track.Sections.ElementAt(setAtNextSection), out SectionData sd1); ;
-                    sd1.Right = sd.Right;
-                    sd.Right = new Driver();
-                    DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
+                    var distanceCrossed = sd.Right.Equipment.Performance * sd.Right.Equipment.Speed;
+                    sd.DistanceRight += distanceCrossed;
+                    if (sd.DistanceRight >= 100)
+                    {
+                        if (IsBrokenOrFixed("Break"))
+                        {
+                            sd.Left.Equipment.IsBroken = true;
+                        }
+                        else
+                        {
+                            if (Data.CurrentRace.Track.Sections.ElementAt(setAtNextSection).SectionType == SectionTypes.Finish)
+                            {
+                                roundsPerDriver[(Driver)sd.Right]++;
+                                if (roundsPerDriver[(Driver)sd.Right] == amountOfRounds)
+                                {
+                                    AwardPoints(sd, "Right");
+                                    sd.Right = new Driver();
+                                }
+                            }
+
+                            sd.DistanceRight = 0;
+                            if (sd1.Right.Name.Length > 1)
+                            {
+                                //andere kant volgnede sectie ook bezet
+                                if (sd1.Left.Name.Length > 0)
+                                {
+                                    sd.DistanceRight = 99;
+                                }
+                                else if (sd1.Left.Name.Length == 0)
+                                {
+                                    sd1.Left = sd.Right;
+                                    sd.Right = new Driver();
+                                }
+                            }
+                            else
+                            {
+                                sd1.Right = sd.Right;
+                                sd.Right = new Driver();
+                            }
+                        }
+                        DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
+                    }
                 }
             }
-            
+            CheckCleanUpAndStartNewRace();
         }
 
         public Track Track { get; set; }
@@ -97,7 +247,7 @@ namespace Controller
 
         public void SetParticipants()
         {
-            List<IParticipant> orderedParticipants = Participants.OrderByDescending(i => i.Points).ToList(); //index 0 is de hoogste aantal punten
+            List<IParticipant> orderedParticipants = Participants.OrderBy(i => i.StartPosition).ToList(); //index 0 is de hoogste aantal punten
             int countParticipants = orderedParticipants.Count();
             int countStartGrids = 0;
             foreach (Section s in Track.Sections)

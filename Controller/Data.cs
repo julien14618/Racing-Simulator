@@ -15,6 +15,10 @@ namespace Controller
             {
                 CurrentRace = new Race(track, Competition.Participants);
             }
+            else
+            {
+                CurrentRace = null;
+            }
         }
 
         public static void Initialize()
@@ -28,43 +32,51 @@ namespace Controller
         {
             Driver d1 = new Driver();
             Driver d2 = new Driver();
-            //Driver d3 = new Driver();
-            //Driver d4 = new Driver();
-            
-            //d3.Name = "CDriver 3";
-            //d4.Name = "DDriver 4";
+            Driver d3 = new Driver();
+            Driver d4 = new Driver();
+            Driver d5 = new Driver();
+            Driver d6 = new Driver();
+
+            d3.Name = "CDriver 3";
+            d4.Name = "DDriver 4";
             d2.Name = "BDriver 2";
             d1.Name = "ADriver 1";
-            
-            
-            //d3.Points = 50;
-            //d4.Points = 70;
-            d2.Points = 75;
-            d1.Points = 5;
+            d5.Name = "EDriver 5";
+            d6.Name = "FDriver 6";
 
-            d1.Equipment.Performance = 2;
-            d2.Equipment.Performance = 4;
-            //d3.Equipment.Performance = 3;
-            //d4.Equipment.Performance = 4;
+            d3.StartPosition = 3;
+            d4.StartPosition = 4;
+            d2.StartPosition = 1;
+            d1.StartPosition = 2;
+            d5.StartPosition = 5;
+            d6.StartPosition = 6;
 
-            d1.Equipment.Speed = 10;
-            d2.Equipment.Speed = 10;
-            //d3.Equipment.Speed = 6;
-            //d4.Equipment.Speed = 8;
-            
+            d1.Equipment.Performance = 5;
+            d2.Equipment.Performance = 8;
+            d3.Equipment.Performance = 5;
+            d4.Equipment.Performance = 7;
+            d5.Equipment.Performance = 8;
+            d6.Equipment.Performance = 9;
+
+            d1.Equipment.Speed = 4;
+            d2.Equipment.Speed = 6;
+            d3.Equipment.Speed = 5;
+            d4.Equipment.Speed = 7;
+            d5.Equipment.Speed = 10;
+            d6.Equipment.Speed = 8;
 
             Competition.Participants.Add(d1);
             Competition.Participants.Add(d2);
-            //Competition.Participants.Add(d3);
-            //Competition.Participants.Add(d4);
-            
-            
+            Competition.Participants.Add(d3);
+            Competition.Participants.Add(d4);
+            Competition.Participants.Add(d5);
+            Competition.Participants.Add(d6);
         }
 
         public static void AddTrack()
         {
-            SectionTypes[] sectionst1 = { SectionTypes.StartGrid, SectionTypes.Straight, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner };
-            SectionTypes[] sectionst2 = { SectionTypes.StartGrid, SectionTypes.StartGrid, SectionTypes.LeftCorner, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.RightCorner };
+            SectionTypes[] sectionst1 = { SectionTypes.StartGrid, SectionTypes.StartGrid, SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner };
+            SectionTypes[] sectionst2 = { SectionTypes.StartGrid, SectionTypes.StartGrid, SectionTypes.StartGrid, SectionTypes.Finish, SectionTypes.LeftCorner, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.RightCorner, SectionTypes.Straight, SectionTypes.RightCorner };
             Track oostendorp = new Track("Oostendorp",
                new SectionTypes[] { SectionTypes.StartGrid, SectionTypes.StartGrid, SectionTypes.StartGrid,SectionTypes.Finish, SectionTypes.Straight,
                 SectionTypes.LeftCorner, SectionTypes.Straight,SectionTypes.Straight,SectionTypes.Straight,SectionTypes.RightCorner,SectionTypes.Straight,SectionTypes.Straight,SectionTypes.RightCorner,SectionTypes.Straight, SectionTypes.RightCorner,
@@ -76,7 +88,7 @@ namespace Controller
             Track t2 = new Track("Spa", sectionst2);
             Competition.Tracks.Enqueue(t1);
             Competition.Tracks.Enqueue(t2);
-            Competition.Tracks.Enqueue(oostendorp);
+            //Competition.Tracks.Enqueue(oostendorp);
         }
     }
 }

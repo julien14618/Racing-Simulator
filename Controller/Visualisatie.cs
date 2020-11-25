@@ -30,6 +30,8 @@ namespace Racing_Simulator
 
         #endregion graphics
 
+        public static string Broken = "@";
+
         public static void printSection(string[] section, int x, int y)
         {
             foreach (var c in section)
@@ -157,9 +159,15 @@ namespace Racing_Simulator
                 returnString = returnString.Replace('2', ' ');
             }
             if (s.Contains('1') && p1 != null && p1.Name.Length > 0)
-                returnString = returnString.Replace('1', p1.Name.First());
+                if (p1.Equipment.IsBroken)
+                    returnString = returnString.Replace('1', Broken.First());
+                else
+                    returnString = returnString.Replace('1', p1.Name.First());
             if (s.Contains('2') && p2 != null && p2.Name.Length > 0)
-                returnString = returnString.Replace('2', p2.Name.First());
+                if (p2.Equipment.IsBroken)
+                    returnString = returnString.Replace('1', Broken.First());
+                else
+                    returnString = returnString.Replace('2', p2.Name.First());
             return returnString;
         }
 
