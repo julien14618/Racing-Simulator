@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Model
 {
-    public interface IRecord<T> where T : IRecord<T>
+    public interface IRecord<T>
     {
         public IParticipant Driver { get; set; }
         public void Add(List<T> list);
