@@ -8,5 +8,7 @@ namespace Model
     {
         public IParticipant Driver { get; set; }
         public void Add(List<T> list);
+        public string BestDriver(List<T> list);
+
     }
 }

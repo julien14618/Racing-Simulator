@@ -67,8 +67,9 @@ namespace Controller
                 if (Data.CurrentRace == null)
                 {
                     Data.Competition.printResults();
-                    Data.Competition.printBrokenEquipmentResults();
-                    Data.Competition.printDriversOvertakenResults();
+                    Data.Competition.PrintBrokenEquipmentResults();
+                    Data.Competition.PrintDriversOvertakenResults();
+                    
                 }
                 else
                 {

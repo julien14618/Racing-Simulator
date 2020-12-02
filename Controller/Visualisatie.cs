@@ -143,7 +143,9 @@ namespace Racing_Simulator
                     startY -= 4;
                 }
             }
+            
             Console.SetCursorPosition(0, 50);
+            Console.WriteLine($"Driver with most equipmentfails: {Data.Competition.MostEquipmentFails()}");
             Console.WriteLine("");
         }
 

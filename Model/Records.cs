@@ -13,6 +13,11 @@ namespace Model
         {
             item.Add(_list);
         }
+
+        public string GetBestDriver()
+        {
+            return _list[0].BestDriver(_list);
+        }
        
     }
 }

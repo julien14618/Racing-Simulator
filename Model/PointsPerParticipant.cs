@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Model
 {
-    
     public class PointsPerParticipant : IRecord<PointsPerParticipant>
     {
         public IParticipant Driver { get; set; }
@@ -19,7 +17,7 @@ namespace Model
         public void Add(List<PointsPerParticipant> pointsPerParticipants)
         {
             bool found = false;
-            foreach(var v in pointsPerParticipants)
+            foreach (var v in pointsPerParticipants)
             {
                 if (this.Driver.Equals(v.Driver))
                 {
@@ -32,7 +30,19 @@ namespace Model
                 pointsPerParticipants.Add(this);
             }
         }
+
+        public string BestDriver(List<PointsPerParticipant> list)
+        {
+            PointsPerParticipant bestDriver = new PointsPerParticipant(new Driver(), 0);
+            foreach (var v in list)
+            {
+                if (v.Points > bestDriver.Points)
+                    bestDriver = v;
+            }
+            return bestDriver.Driver.Name;
+        }
     }
+
     public class TimePerParticipant : IRecord<TimePerParticipant>
     {
         public IParticipant Driver { get; set; }
@@ -51,7 +61,19 @@ namespace Model
         {
             list.Add(this);
         }
+
+        public string BestDriver(List<TimePerParticipant> list)
+        {
+            TimePerParticipant participant = new TimePerParticipant(new Driver(), new Section(SectionTypes.Straight), new DateTime(1, 1, 1, 0, 0, 0));
+            foreach(var v in list)
+            {
+                if (participant.DateTime.CompareTo(v.DateTime) < 0 && v.Driver.Name.Length > 0)
+                    participant = v;
+            }
+            return participant.Driver.Name;
+        }
     }
+
     public class FailedEquipmentPerParticipant : IRecord<FailedEquipmentPerParticipant>
     {
         public IParticipant Driver { get; set; }
@@ -78,6 +100,17 @@ namespace Model
             {
                 list.Add(this);
             }
+        }
+
+        public string BestDriver(List<FailedEquipmentPerParticipant> list)
+        {
+            FailedEquipmentPerParticipant bestDriver = new FailedEquipmentPerParticipant(new Driver(), 0);
+            foreach (var v in list)
+            {
+                if (v.Count > bestDriver.Count)
+                    bestDriver = v;
+            }
+            return bestDriver.Driver.Name;
         }
     }
 
@@ -107,6 +140,17 @@ namespace Model
             {
                 list.Add(this);
             }
+        }
+
+        public string BestDriver(List<DriversOvertaken> list)
+        {
+            DriversOvertaken bestDriver = new DriversOvertaken(new Driver(), 0);
+            foreach (var v in list)
+            {
+                if (v.Count > bestDriver.Count)
+                    bestDriver = v;
+            }
+            return bestDriver.Driver.Name;
         }
     }
 }

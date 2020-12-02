@@ -24,29 +24,45 @@ namespace Model
             {
                 Console.WriteLine($"{v.Driver.Name} got {v.Points} points");
             }
-            Console.WriteLine("Race has ended");
+
+            Console.WriteLine($"Points Race has ended and the Winner is: {PointsPerParticipant.GetBestDriver()}");
+            Console.WriteLine($"Best time {TimePerParticipant.GetBestDriver()}");
+            Console.WriteLine($"Most equipmentfails {FailedEquipmentPerParticipant.GetBestDriver()}");
+            Console.WriteLine($"Driver that has overtaken most other drivers {DriversOvertaken.GetBestDriver()}");
         }
 
-        public void printTimedResults()
+        //public string PrintBestDriver(List<IParticipant> participants)
+        //{
+        //    return PointsPerParticipant.GetBestDriver(participants);
+        //}
+
+        public void PrintTimedResults()
         {
             foreach (var v in TimePerParticipant._list)
             {
                 Console.WriteLine($"Section: {v.Section.SectionType.ToString()} Driver:{v.Driver.Name} Time:{v.DateTime.ToString()}");
             }
         }
-        public void printBrokenEquipmentResults()
+
+        public void PrintBrokenEquipmentResults()
         {
-            foreach(var v in FailedEquipmentPerParticipant._list)
+            foreach (var v in FailedEquipmentPerParticipant._list)
             {
                 Console.WriteLine($"Driver: {v.Driver.Name} Equipment fails: {v.Count}");
             }
         }
-        public void printDriversOvertakenResults()
+
+        public void PrintDriversOvertakenResults()
         {
             foreach (var i in DriversOvertaken._list)
             {
-                Console.WriteLine($"Driver: {i.Driver.Name} Overtaken: {i.Count}");
+                Console.WriteLine($"Driver: {i.Driver.Name} has overtaken: {i.Count} drivers");
             }
+        }
+
+        public string MostEquipmentFails()
+        {
+            return FailedEquipmentPerParticipant.GetBestDriver();
         }
 
         public void FillRecordAndEndRace(List<IParticipant> participants)
@@ -65,6 +81,7 @@ namespace Model
                     }
                 }
                 PointsPerParticipant.AddToList(new Model.PointsPerParticipant(driverBuffer, driverBuffer.Points));
+
                 participants.Remove(driverBuffer);
             }
         }
@@ -73,14 +90,16 @@ namespace Model
         {
             TimePerParticipant.AddToList(new Model.TimePerParticipant(participant, section, dateTime));
         }
+
         public void InitializeBrokenEquipmentAndOvertakenRecord(List<IParticipant> participants)
         {
-            foreach(IParticipant participant in participants)
-            {               
-                FailedEquipmentPerParticipant.AddToList(new Model.FailedEquipmentPerParticipant(participant,0));
-                DriversOvertaken.AddToList(new Model.DriversOvertaken(participant,0));
+            foreach (IParticipant participant in participants)
+            {
+                FailedEquipmentPerParticipant.AddToList(new Model.FailedEquipmentPerParticipant(participant, 0));
+                DriversOvertaken.AddToList(new Model.DriversOvertaken(participant, 0));
             }
         }
+
         public void FillRecordBrokenEquipmentPerParticipant(IParticipant participant)
         {
             foreach (FailedEquipmentPerParticipant p in FailedEquipmentPerParticipant._list)
@@ -91,9 +110,10 @@ namespace Model
                 }
             }
         }
+
         public void FillRecordDriversOvertaken(IParticipant participant)
         {
-            foreach(DriversOvertaken d in DriversOvertaken._list)
+            foreach (DriversOvertaken d in DriversOvertaken._list)
             {
                 if (d.Driver.Equals(participant))
                 {
