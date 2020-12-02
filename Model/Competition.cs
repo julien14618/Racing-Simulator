@@ -10,24 +10,47 @@ namespace Model
         public Queue<Track> Tracks { get; set; }
         public Records<PointsPerParticipant> PointsPerParticipant = new Records<PointsPerParticipant>();
         public Records<TimePerParticipant> TimePerParticipant = new Records<TimePerParticipant>();
-        
+        public Records<FailedEquipmentPerParticipant> FailedEquipmentPerParticipant = new Records<FailedEquipmentPerParticipant>();
+        public Records<DriversOvertaken> DriversOvertaken = new Records<DriversOvertaken>();
 
         public void RaceFinished(Object sender, RaceFinishedEventArgs raceFinishedEventArgs)
         {
             FillRecordAndEndRace(raceFinishedEventArgs.Participants);
-       
         }
+
         public void printResults()
         {
             foreach (var v in PointsPerParticipant._list)
             {
-                Console.WriteLine($"{v.Name} got {v.Points} points");
+                Console.WriteLine($"{v.Driver.Name} got {v.Points} points");
             }
             Console.WriteLine("Race has ended");
         }
 
+        public void printTimedResults()
+        {
+            foreach (var v in TimePerParticipant._list)
+            {
+                Console.WriteLine($"Section: {v.Section.SectionType.ToString()} Driver:{v.Driver.Name} Time:{v.DateTime.ToString()}");
+            }
+        }
+        public void printBrokenEquipmentResults()
+        {
+            foreach(var v in FailedEquipmentPerParticipant._list)
+            {
+                Console.WriteLine($"Driver: {v.Driver.Name} Equipment fails: {v.Count}");
+            }
+        }
+        public void printDriversOvertakenResults()
+        {
+            foreach (var i in DriversOvertaken._list)
+            {
+                Console.WriteLine($"Driver: {i.Driver.Name} Overtaken: {i.Count}");
+            }
+        }
+
         public void FillRecordAndEndRace(List<IParticipant> participants)
-        {           
+        {
             int counter = participants.Count;
             for (int i = 0; i < counter; i++)
             {
@@ -39,10 +62,43 @@ namespace Model
                     {
                         driverBuffer = (Driver)v;
                         maxPoints = v.Points;
-                    }                                     
+                    }
                 }
-                PointsPerParticipant.AddToList(new Model.PointsPerParticipant(driverBuffer.Name, driverBuffer.Points));
+                PointsPerParticipant.AddToList(new Model.PointsPerParticipant(driverBuffer, driverBuffer.Points));
                 participants.Remove(driverBuffer);
+            }
+        }
+
+        public void FillRecordTimePerSection(IParticipant participant, DateTime dateTime, Section section)
+        {
+            TimePerParticipant.AddToList(new Model.TimePerParticipant(participant, section, dateTime));
+        }
+        public void InitializeBrokenEquipmentAndOvertakenRecord(List<IParticipant> participants)
+        {
+            foreach(IParticipant participant in participants)
+            {               
+                FailedEquipmentPerParticipant.AddToList(new Model.FailedEquipmentPerParticipant(participant,0));
+                DriversOvertaken.AddToList(new Model.DriversOvertaken(participant,0));
+            }
+        }
+        public void FillRecordBrokenEquipmentPerParticipant(IParticipant participant)
+        {
+            foreach (FailedEquipmentPerParticipant p in FailedEquipmentPerParticipant._list)
+            {
+                if (p.Driver.Equals(participant))
+                {
+                    p.Count++;
+                }
+            }
+        }
+        public void FillRecordDriversOvertaken(IParticipant participant)
+        {
+            foreach(DriversOvertaken d in DriversOvertaken._list)
+            {
+                if (d.Driver.Equals(participant))
+                {
+                    d.Count++;
+                }
             }
         }
 
@@ -67,8 +123,11 @@ namespace Model
         {
             Tracks = new Queue<Track>();
             Participants = new List<IParticipant>();
+
             PointsPerParticipant._list = new List<PointsPerParticipant>();
             TimePerParticipant._list = new List<TimePerParticipant>();
+            FailedEquipmentPerParticipant._list = new List<FailedEquipmentPerParticipant>();
+            DriversOvertaken._list = new List<DriversOvertaken>();
         }
     }
 }

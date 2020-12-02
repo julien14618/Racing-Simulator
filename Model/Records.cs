@@ -4,14 +4,14 @@ using System.Text;
 
 namespace Model
 {
-    public class Records<T>
+    public class Records<T> where T : IRecord<T>
     {
         public List<T> _list { get; set; }
         
 
         public void AddToList(T item)
         {
-            _list.Add(item);
+            item.Add(_list);
         }
        
     }

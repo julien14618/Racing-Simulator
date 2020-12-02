@@ -22,11 +22,12 @@ namespace Controller
         {
             Participants = participants;
             Track = track;
-            timer = new Timer(120);
+            timer = new Timer(130);
             timer.Elapsed += OnTimedEvent;
             _random = new Random(DateTime.Now.Millisecond);
             DriversChanged += Visualisatie.DriverChanged;
             RaceFinished += Data.Competition.RaceFinished;
+            Data.Competition.InitializeBrokenEquipmentAndOvertakenRecord(participants);
         }
 
         public void Start()
@@ -66,6 +67,8 @@ namespace Controller
                 if (Data.CurrentRace == null)
                 {
                     Data.Competition.printResults();
+                    Data.Competition.printBrokenEquipmentResults();
+                    Data.Competition.printDriversOvertakenResults();
                 }
                 else
                 {
@@ -105,7 +108,7 @@ namespace Controller
                 positionFinished++;
             }
         }
-
+        
         public void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
             for (int i = 0; i < Data.CurrentRace.Track.Sections.Count; i++)
@@ -134,15 +137,18 @@ namespace Controller
                         if (IsBrokenOrFixed("Break"))
                         {
                             sd.Left.Equipment.IsBroken = true;
+                            Data.Competition.FillRecordBrokenEquipmentPerParticipant(sd.Left);
                         }
                         else
                         {
+                            
                             if (Data.CurrentRace.Track.Sections.ElementAt(setAtNextSection).SectionType == SectionTypes.Finish)
                             {
                                 roundsPerDriver[(Driver)sd.Left]++;
                                 if (roundsPerDriver[(Driver)sd.Left] == amountOfRounds)
                                 {
                                     AwardPoints(sd, "Left");
+
                                     sd.Left = new Driver();
                                 }
                             }
@@ -154,17 +160,27 @@ namespace Controller
                                 if (sd1.Right.Name.Length > 0)
                                 {
                                     sd.DistanceLeft = 99;
+                                    if (Data.CurrentRace.Track.Sections.ElementAt(setAtNextSection).SectionType == SectionTypes.Finish)
+                                    {
+                                        roundsPerDriver[(Driver)sd.Left]--;
+                                    }
+
                                 }
                                 else if (sd1.Right.Name.Length == 0)
                                 {
                                     sd1.Right = sd.Left;
+                                    Data.Competition.FillRecordTimePerSection(sd.Left, e.SignalTime, Data.CurrentRace.Track.Sections.ElementAt(i));
+                                    Data.Competition.FillRecordDriversOvertaken(sd.Left);
                                     sd.Left = new Driver();
+                                    
                                 }
                             }
                             else
                             {
                                 sd1.Left = sd.Left;
+                                Data.Competition.FillRecordTimePerSection(sd.Left, e.SignalTime, Data.CurrentRace.Track.Sections.ElementAt(i));
                                 sd.Left = new Driver();
+                                
                             }
                         }
                         DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
@@ -179,6 +195,7 @@ namespace Controller
                         if (IsBrokenOrFixed("Break"))
                         {
                             sd.Left.Equipment.IsBroken = true;
+                            Data.Competition.FillRecordBrokenEquipmentPerParticipant(sd.Right);
                         }
                         else
                         {
@@ -188,6 +205,7 @@ namespace Controller
                                 if (roundsPerDriver[(Driver)sd.Right] == amountOfRounds)
                                 {
                                     AwardPoints(sd, "Right");
+
                                     sd.Right = new Driver();
                                 }
                             }
@@ -199,17 +217,27 @@ namespace Controller
                                 if (sd1.Left.Name.Length > 0)
                                 {
                                     sd.DistanceRight = 99;
+                                    if (Data.CurrentRace.Track.Sections.ElementAt(setAtNextSection).SectionType == SectionTypes.Finish)
+                                    {
+                                        roundsPerDriver[(Driver)sd.Right]--;
+                                    }
+
                                 }
                                 else if (sd1.Left.Name.Length == 0)
                                 {
                                     sd1.Left = sd.Right;
+                                    Data.Competition.FillRecordTimePerSection(sd.Right, e.SignalTime, Data.CurrentRace.Track.Sections.ElementAt(i));
+                                    Data.Competition.FillRecordDriversOvertaken(sd.Right);
                                     sd.Right = new Driver();
+                                    
                                 }
                             }
                             else
                             {
                                 sd1.Right = sd.Right;
+                                Data.Competition.FillRecordTimePerSection(sd.Right, e.SignalTime, Data.CurrentRace.Track.Sections.ElementAt(i));
                                 sd.Right = new Driver();
+                                
                             }
                         }
                         DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));

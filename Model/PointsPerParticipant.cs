@@ -5,26 +5,108 @@ using System.Text;
 namespace Model
 {
     
-    public class PointsPerParticipant
+    public class PointsPerParticipant : IRecord<PointsPerParticipant>
     {
-        public string Name { get; set; }
+        public IParticipant Driver { get; set; }
         public int Points { get; set; }
 
-        public PointsPerParticipant(string name, int points)
+        public PointsPerParticipant(IParticipant driver, int points)
         {
-            Name = name;
+            Driver = driver;
             Points = points;
         }
-    }
-    public class TimePerParticipant
-    {
-        public string Name { get; set; }
-        public TimeSpan TimeSpan { get; set; }
 
-        public TimePerParticipant(string name, TimeSpan timeSpan)
+        public void Add(List<PointsPerParticipant> pointsPerParticipants)
         {
-            Name = name;
-            TimeSpan = timeSpan;
+            bool found = false;
+            foreach(var v in pointsPerParticipants)
+            {
+                if (this.Driver.Equals(v.Driver))
+                {
+                    v.Points += this.Points;
+                    found = true;
+                }
+            }
+            if (!found)
+            {
+                pointsPerParticipants.Add(this);
+            }
+        }
+    }
+    public class TimePerParticipant : IRecord<TimePerParticipant>
+    {
+        public IParticipant Driver { get; set; }
+
+        public Section Section { get; set; }
+        public DateTime DateTime { get; set; }
+
+        public TimePerParticipant(IParticipant driver, Section section, DateTime dateTime)
+        {
+            Driver = driver;
+            Section = section;
+            DateTime = dateTime;
+        }
+
+        public void Add(List<TimePerParticipant> list)
+        {
+            list.Add(this);
+        }
+    }
+    public class FailedEquipmentPerParticipant : IRecord<FailedEquipmentPerParticipant>
+    {
+        public IParticipant Driver { get; set; }
+        public int Count { get; set; }
+
+        public FailedEquipmentPerParticipant(IParticipant driver, int count)
+        {
+            Driver = driver;
+            Count = count;
+        }
+
+        public void Add(List<FailedEquipmentPerParticipant> list)
+        {
+            bool found = false;
+            foreach (var v in list)
+            {
+                if (this.Driver.Equals(v.Driver))
+                {
+                    v.Count += this.Count;
+                    found = true;
+                }
+            }
+            if (!found)
+            {
+                list.Add(this);
+            }
+        }
+    }
+
+    public class DriversOvertaken : IRecord<DriversOvertaken>
+    {
+        public IParticipant Driver { get; set; }
+        public int Count { get; set; }
+
+        public DriversOvertaken(IParticipant driver, int count)
+        {
+            Driver = driver;
+            Count = count;
+        }
+
+        public void Add(List<DriversOvertaken> list)
+        {
+            bool found = false;
+            foreach (var v in list)
+            {
+                if (this.Driver.Equals(v.Driver))
+                {
+                    v.Count += this.Count;
+                    found = true;
+                }
+            }
+            if (!found)
+            {
+                list.Add(this);
+            }
         }
     }
 }
