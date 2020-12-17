@@ -10,27 +10,35 @@ namespace WPFVisualisatie
 {
     public static class CreateImages
     {
-        static private Dictionary<string, Bitmap> cache;
+        static private Dictionary<string, Bitmap> imageCache;
+
+        public static void Initialise()
+        {
+            imageCache = new Dictionary<string, Bitmap>();
+        }
         static public Bitmap GetImageFromCache(string url)
         {
-            Bitmap result;
-            if (!cache.TryGetValue(url, out result))
-                cache.Add(url, new Bitmap(url));
-            cache.TryGetValue(url, out result);
+            if (imageCache.TryGetValue(url, out Bitmap result))
+                return result;
+            result = new Bitmap(url);
+            imageCache.Add(url, result);
             return result;
         }
 
         static public void ClearCache()
         {
-            cache.Clear();
+            imageCache?.Clear();
         }
-        static public Bitmap GetBitmap(int width, int height)
+        static public Bitmap CreateEmptyBitmap(int width, int height)
         {
-            Bitmap bm = new Bitmap(GetImageFromCache("Empty"), width, height);
+            if (imageCache.ContainsKey("empty"))
+                return (Bitmap)GetImageFromCache("empty").Clone();
+            Bitmap bm = new Bitmap(width, height);
             Graphics g = Graphics.FromImage(bm);
-            g.Clear(System.Drawing.Color.Green);
-            cache["Empty"] = bm;
-            return (Bitmap)cache["Empty"].Clone();
+            SolidBrush color = new SolidBrush(System.Drawing.Color.Yellow);
+            g.FillRectangle(color, 0, 0, width, height);
+            imageCache.Add("empty", bm);
+            return (Bitmap)bm.Clone();
             
         }
         public static BitmapSource CreateBitmapSourceFromGdiBitmap(Bitmap bitmap)

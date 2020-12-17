@@ -25,7 +25,8 @@ namespace Controller
             timer = new Timer(130);
             timer.Elapsed += OnTimedEvent;
             _random = new Random(DateTime.Now.Millisecond);
-            DriversChanged += Visualisatie.DriverChanged;
+            //Uncomment if more than 1 race wil be displayed in console.
+            //DriversChanged += Visualisatie.DriverChanged;
             RaceFinished += Data.Competition.RaceFinished;
             Data.Competition.InitializeBrokenEquipmentAndOvertakenRecord(participants);
         }
@@ -34,8 +35,13 @@ namespace Controller
         {
             timer.Start();
             DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
+            foreach(Section s in Data.CurrentRace.Track.Sections)
+            {
+                Data.CurrentRace.GetSectionData(s);
+            }
             for (int i = 0; i < Data.CurrentRace.Track.Sections.Count; i++)
             {
+                
                 _positions.TryGetValue(Data.CurrentRace.Track.Sections.ElementAt(i), out SectionData sd);
                 roundsPerDriver.TryAdd((Driver)sd.Left, 0);
                 roundsPerDriver.TryAdd((Driver)sd.Right, 0);
@@ -304,7 +310,7 @@ namespace Controller
                 _positions.TryAdd(Track.Sections.ElementAt(countStartGrids - k), sd);
                 k++;
             }
-            Console.SetCursorPosition(0, 100);
+            //Console.SetCursorPosition(0, 100);
             //Console.WriteLine(GetSectionData(Track.Sections.ElementAt(2)).Left.Name);
         }
     }

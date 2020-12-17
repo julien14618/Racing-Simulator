@@ -86,7 +86,7 @@ namespace Controller
                 SectionTypes.RightCorner,SectionTypes.Straight,SectionTypes.Straight,SectionTypes.Straight,SectionTypes.Straight,SectionTypes.Straight, SectionTypes.RightCorner,SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight});
             Track t1 = new Track("Zandvoort", sectionst1);
             Track t2 = new Track("Spa", sectionst2);
-            Competition.Tracks.Enqueue(t1);
+            //Competition.Tracks.Enqueue(t1);
             Competition.Tracks.Enqueue(t2);
             //Competition.Tracks.Enqueue(oostendorp);
         }

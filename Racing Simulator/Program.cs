@@ -11,9 +11,7 @@ namespace Racing_Simulator
             Data.Initialize();
             Data.NextRace();
             Data.CurrentRace.SetParticipants();
-            //Visualisatie.DrawTrack(Data.CurrentRace.Track);
-
-            //Visualisatie.DriverChanged(null, new Model.DriversChangedEventArgs(Data.CurrentRace.Track));
+            Data.CurrentRace.DriversChanged += Visualisatie.DriverChanged;
             Data.CurrentRace.Start();
             Console.ReadLine();
         }
