@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Racing Simulator", "Racing Simulator\Racing Simulator.csproj", "{CD1FB6D0-9664-4468-BB7A-34C158FF6CEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Racing Simulator", "Racing Simulator\Racing Simulator.csproj", "{CD1FB6D0-9664-4468-BB7A-34C158FF6CEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{0BEB8B21-C8F6-474E-B3C7-F0928895A8ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{0BEB8B21-C8F6-474E-B3C7-F0928895A8ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controller", "Controller\Controller.csproj", "{BA9794AE-F7B3-4895-A3E8-A767A1306861}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Controller", "Controller\Controller.csproj", "{BA9794AE-F7B3-4895-A3E8-A767A1306861}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControllerTest", "ControllerTest\ControllerTest.csproj", "{4AECD244-D973-4EA7-8205-CEFC4E21F5EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControllerTest", "ControllerTest\ControllerTest.csproj", "{4AECD244-D973-4EA7-8205-CEFC4E21F5EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFVisualisatie", "WPFVisualisatie\WPFVisualisatie.csproj", "{17056C3A-E043-44A3-9133-58F83A668517}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{4AECD244-D973-4EA7-8205-CEFC4E21F5EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AECD244-D973-4EA7-8205-CEFC4E21F5EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AECD244-D973-4EA7-8205-CEFC4E21F5EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17056C3A-E043-44A3-9133-58F83A668517}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17056C3A-E043-44A3-9133-58F83A668517}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17056C3A-E043-44A3-9133-58F83A668517}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17056C3A-E043-44A3-9133-58F83A668517}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

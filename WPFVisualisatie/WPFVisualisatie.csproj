@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\Car_Blue.png" />
+    <None Remove="Images\Car_Broken.png" />
+    <None Remove="Images\Car_Green.png" />
+    <None Remove="Images\Car_Red.png" />
+    <None Remove="Images\Corner_RightFormNorth.png" />
+    <None Remove="Images\Corner_RightFromEast.png" />
+    <None Remove="Images\Corner_RightFromSouth.png" />
+    <None Remove="Images\Corner_RightFromWest.png" />
+    <None Remove="Images\Straight_Horizontal.png" />
+    <None Remove="Images\Straight_Vertical.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\Car_Blue.png" />
+    <Content Include="Images\Car_Broken.png" />
+    <Content Include="Images\Car_Green.png" />
+    <Content Include="Images\Car_Red.png" />
+    <Content Include="Images\Corner_RightFormNorth.png" />
+    <Content Include="Images\Corner_RightFromEast.png" />
+    <Content Include="Images\Corner_RightFromSouth.png" />
+    <Content Include="Images\Corner_RightFromWest.png" />
+    <Content Include="Images\Straight_Horizontal.png" />
+    <Content Include="Images\Straight_Vertical.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>
