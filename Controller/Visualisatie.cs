@@ -49,6 +49,7 @@ namespace Racing_Simulator
 
         public static void DrawTrack(Track track)
         {
+            
             int startX = 60;
             int startY = 40;
             Directions direction = Directions.East;

@@ -15,21 +15,41 @@
     <None Remove="Images\Corner_RightFromEast.png" />
     <None Remove="Images\Corner_RightFromSouth.png" />
     <None Remove="Images\Corner_RightFromWest.png" />
+    <None Remove="Images\Racetrack_Car_Blue.png" />
+    <None Remove="Images\Racetrack_Car_Blue_BrokenDown.png" />
+    <None Remove="Images\Racetrack_Car_Green.png" />
+    <None Remove="Images\Racetrack_Car_Green_BrokenDown - Copy.png" />
+    <None Remove="Images\Racetrack_Car_Green_BrokenDown.png" />
+    <None Remove="Images\Racetrack_Car_Grey.png" />
+    <None Remove="Images\Racetrack_Car_Grey_BrokenDown.png" />
+    <None Remove="Images\Racetrack_Car_Red.png" />
+    <None Remove="Images\Racetrack_Car_Red_BrokenDown.png" />
+    <None Remove="Images\Racetrack_Car_Yellow.png" />
+    <None Remove="Images\Racetrack_Car_Yellow_BrokenDown.png" />
+    <None Remove="Images\Racetrack_Corner.png" />
+    <None Remove="Images\Racetrack_Finish.png" />
+    <None Remove="Images\Racetrack_Start.png" />
+    <None Remove="Images\Racetrack_Straight.png" />
     <None Remove="Images\Straight_Horizontal.png" />
     <None Remove="Images\Straight_Vertical.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Images\Car_Blue.png" />
-    <Content Include="Images\Car_Broken.png" />
-    <Content Include="Images\Car_Green.png" />
-    <Content Include="Images\Car_Red.png" />
-    <Content Include="Images\Corner_RightFormNorth.png" />
-    <Content Include="Images\Corner_RightFromEast.png" />
-    <Content Include="Images\Corner_RightFromSouth.png" />
-    <Content Include="Images\Corner_RightFromWest.png" />
-    <Content Include="Images\Straight_Horizontal.png" />
-    <Content Include="Images\Straight_Vertical.png" />
+    <Content Include="Images\Racetrack_Car_Blue.png" />
+    <Content Include="Images\Racetrack_Car_Blue_BrokenDown.png" />
+    <Content Include="Images\Racetrack_Car_Green.png" />
+    <Content Include="Images\Racetrack_Car_Green_BrokenDown - Copy.png" />
+    <Content Include="Images\Racetrack_Car_Green_BrokenDown.png" />
+    <Content Include="Images\Racetrack_Car_Grey.png" />
+    <Content Include="Images\Racetrack_Car_Grey_BrokenDown.png" />
+    <Content Include="Images\Racetrack_Car_Red.png" />
+    <Content Include="Images\Racetrack_Car_Red_BrokenDown.png" />
+    <Content Include="Images\Racetrack_Car_Yellow.png" />
+    <Content Include="Images\Racetrack_Car_Yellow_BrokenDown.png" />
+    <Content Include="Images\Racetrack_Corner.png" />
+    <Content Include="Images\Racetrack_Finish.png" />
+    <Content Include="Images\Racetrack_Start.png" />
+    <Content Include="Images\Racetrack_Straight.png" />
   </ItemGroup>
 
   <ItemGroup>

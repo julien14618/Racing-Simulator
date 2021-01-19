@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -18,9 +19,9 @@ namespace WPFVisualisatie
         }
         static public Bitmap GetImageFromCache(string url)
         {
-            if (imageCache.TryGetValue(url, out Bitmap result))
-                return result;
-            result = new Bitmap(url);
+            if (imageCache.ContainsKey(url))
+                return imageCache[url];
+            Bitmap result = new Bitmap(url);
             imageCache.Add(url, result);
             return result;
         }
@@ -35,7 +36,7 @@ namespace WPFVisualisatie
                 return (Bitmap)GetImageFromCache("empty").Clone();
             Bitmap bm = new Bitmap(width, height);
             Graphics g = Graphics.FromImage(bm);
-            SolidBrush color = new SolidBrush(System.Drawing.Color.Yellow);
+            SolidBrush color = new SolidBrush(System.Drawing.Color.Gray);
             g.FillRectangle(color, 0, 0, width, height);
             imageCache.Add("empty", bm);
             return (Bitmap)bm.Clone();

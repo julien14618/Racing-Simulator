@@ -22,7 +22,7 @@ namespace Controller
         {
             Participants = participants;
             Track = track;
-            timer = new Timer(130);
+            timer = new Timer(250);
             timer.Elapsed += OnTimedEvent;
             _random = new Random(DateTime.Now.Millisecond);
             //Uncomment if more than 1 race wil be displayed in console.
@@ -61,7 +61,7 @@ namespace Controller
             }
             if (startnew)
             {
-                Console.Clear();
+                //Console.Clear();
                 timer.Stop();
                 DriversChanged = null;
                 //Add points to list and reset every round
