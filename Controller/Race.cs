@@ -1,5 +1,4 @@
 ﻿using Model;
-using Racing_Simulator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +21,9 @@ namespace Controller
         {
             Participants = participants;
             Track = track;
-            timer = new Timer(250);
+            timer = new Timer(350);
             timer.Elapsed += OnTimedEvent;
             _random = new Random(DateTime.Now.Millisecond);
-            //Uncomment if more than 1 race wil be displayed in console.
-            //DriversChanged += Visualisatie.DriverChanged;
-            RaceFinished += Data.Competition.RaceFinished;
             Data.Competition.InitializeBrokenEquipmentAndOvertakenRecord(participants);
         }
 
@@ -35,17 +31,22 @@ namespace Controller
         {
             timer.Start();
             DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
-            foreach(Section s in Data.CurrentRace.Track.Sections)
+            foreach (Section s in Data.CurrentRace.Track.Sections)
             {
                 Data.CurrentRace.GetSectionData(s);
             }
             for (int i = 0; i < Data.CurrentRace.Track.Sections.Count; i++)
             {
-                
                 _positions.TryGetValue(Data.CurrentRace.Track.Sections.ElementAt(i), out SectionData sd);
                 roundsPerDriver.TryAdd((Driver)sd.Left, 0);
                 roundsPerDriver.TryAdd((Driver)sd.Right, 0);
             }
+        }
+
+        public void DisposeEventHandlers()
+        {
+            DriversChanged = null;
+            RaceFinished = null;
         }
 
         private bool startnew;
@@ -61,12 +62,12 @@ namespace Controller
             }
             if (startnew)
             {
-                //Console.Clear();
+                
                 timer.Stop();
                 DriversChanged = null;
                 //Add points to list and reset every round
                 List<IParticipant> pBuffer = Data.Competition.Participants.FindAll(p => p.Name.Length > 0);
-                RaceFinished?.Invoke(this, new RaceFinishedEventArgs(pBuffer));
+                Data.Competition.FillRecordAndEndRace(pBuffer);
                 Data.Competition.Participants.ForEach(p => p.Points = 0);
 
                 Data.NextRace();
@@ -75,12 +76,11 @@ namespace Controller
                     Data.Competition.printResults();
                     Data.Competition.PrintBrokenEquipmentResults();
                     Data.Competition.PrintDriversOvertakenResults();
-                    
                 }
                 else
                 {
-                    Data.CurrentRace.SetParticipants();
-                    Data.CurrentRace.Start();
+                    RaceFinished?.Invoke(this, new RaceFinishedEventArgs(pBuffer));
+                    
                 }
             }
         }
@@ -92,7 +92,7 @@ namespace Controller
             if (breakOrFix == "Break")
                 brokenOrFixedInt = 10;
             if (breakOrFix == "Fix")
-                brokenOrFixedInt = 10;
+                brokenOrFixedInt = 20;
             if (r.Next(0, 100) < brokenOrFixedInt)
                 return true;
             return false;
@@ -115,7 +115,7 @@ namespace Controller
                 positionFinished++;
             }
         }
-        
+
         public void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
             for (int i = 0; i < Data.CurrentRace.Track.Sections.Count; i++)
@@ -148,7 +148,6 @@ namespace Controller
                         }
                         else
                         {
-                            
                             if (Data.CurrentRace.Track.Sections.ElementAt(setAtNextSection).SectionType == SectionTypes.Finish)
                             {
                                 roundsPerDriver[(Driver)sd.Left]++;
@@ -171,7 +170,6 @@ namespace Controller
                                     {
                                         roundsPerDriver[(Driver)sd.Left]--;
                                     }
-
                                 }
                                 else if (sd1.Right.Name.Length == 0)
                                 {
@@ -179,7 +177,6 @@ namespace Controller
                                     Data.Competition.FillRecordTimePerSection(sd.Left, e.SignalTime, Data.CurrentRace.Track.Sections.ElementAt(i));
                                     Data.Competition.FillRecordDriversOvertaken(sd.Left);
                                     sd.Left = new Driver();
-                                    
                                 }
                             }
                             else
@@ -187,7 +184,6 @@ namespace Controller
                                 sd1.Left = sd.Left;
                                 Data.Competition.FillRecordTimePerSection(sd.Left, e.SignalTime, Data.CurrentRace.Track.Sections.ElementAt(i));
                                 sd.Left = new Driver();
-                                
                             }
                         }
                         DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
@@ -228,7 +224,6 @@ namespace Controller
                                     {
                                         roundsPerDriver[(Driver)sd.Right]--;
                                     }
-
                                 }
                                 else if (sd1.Left.Name.Length == 0)
                                 {
@@ -236,7 +231,6 @@ namespace Controller
                                     Data.Competition.FillRecordTimePerSection(sd.Right, e.SignalTime, Data.CurrentRace.Track.Sections.ElementAt(i));
                                     Data.Competition.FillRecordDriversOvertaken(sd.Right);
                                     sd.Right = new Driver();
-                                    
                                 }
                             }
                             else
@@ -244,10 +238,9 @@ namespace Controller
                                 sd1.Right = sd.Right;
                                 Data.Competition.FillRecordTimePerSection(sd.Right, e.SignalTime, Data.CurrentRace.Track.Sections.ElementAt(i));
                                 sd.Right = new Driver();
-                                
                             }
                         }
-                        DriversChanged?.Invoke(this, new DriversChangedEventArgs(Track));
+                        DriversChanged?.Invoke(this, new DriversChangedEventArgs(Data.CurrentRace.Track));
                     }
                 }
             }

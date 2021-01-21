@@ -1,4 +1,5 @@
 ﻿using Controller;
+using Model;
 using System;
 
 namespace Racing_Simulator
@@ -12,8 +13,19 @@ namespace Racing_Simulator
             Data.NextRace();
             Data.CurrentRace.SetParticipants();
             Data.CurrentRace.DriversChanged += Visualisatie.DriverChanged;
+            Data.CurrentRace.RaceFinished += RaceFinished;
             Data.CurrentRace.Start();
             Console.ReadLine();
+        }
+        public static void RaceFinished(Object sender, RaceFinishedEventArgs raceFinishedEventArgs)
+        {
+            Console.Clear();
+            Data.Competition.FillRecordAndEndRace(raceFinishedEventArgs.Participants);
+            Data.CurrentRace.DisposeEventHandlers();
+            Data.CurrentRace.DriversChanged += Visualisatie.DriverChanged;
+            Data.CurrentRace.RaceFinished += RaceFinished;
+            Data.CurrentRace.SetParticipants();
+            Data.CurrentRace.Start();
         }
     }
 }

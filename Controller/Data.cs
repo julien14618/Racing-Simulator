@@ -65,12 +65,19 @@ namespace Controller
             d5.Equipment.Speed = 10;
             d6.Equipment.Speed = 8;
 
+            d1.TeamColor = TeamColors.Yellow;
+            d2.TeamColor = TeamColors.Grey;
+            d3.TeamColor = TeamColors.Red;
+            d4.TeamColor = TeamColors.Blue;
+            d5.TeamColor = TeamColors.Green;
+            d6.TeamColor = TeamColors.Yellow;
+
             Competition.Participants.Add(d1);
             Competition.Participants.Add(d2);
             Competition.Participants.Add(d3);
-            Competition.Participants.Add(d4);
-            Competition.Participants.Add(d5);
-            Competition.Participants.Add(d6);
+            //Competition.Participants.Add(d4);
+            //Competition.Participants.Add(d5);
+            //Competition.Participants.Add(d6);
         }
 
         public static void AddTrack()
@@ -85,10 +92,12 @@ namespace Controller
                 SectionTypes.RightCorner, SectionTypes.LeftCorner, SectionTypes.LeftCorner, SectionTypes.RightCorner, SectionTypes.RightCorner,SectionTypes.Straight,SectionTypes.Straight,SectionTypes.Straight,SectionTypes.Straight,SectionTypes.Straight,SectionTypes.Straight,
                 SectionTypes.RightCorner,SectionTypes.Straight,SectionTypes.Straight,SectionTypes.Straight,SectionTypes.Straight,SectionTypes.Straight, SectionTypes.RightCorner,SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight, SectionTypes.Straight});
             Track t1 = new Track("Zandvoort", sectionst1);
+            
             Track t2 = new Track("Spa", sectionst2);
             Competition.Tracks.Enqueue(t1);
-            //Competition.Tracks.Enqueue(t2);
-            //Competition.Tracks.Enqueue(oostendorp);
+            Competition.Tracks.Enqueue(oostendorp);
+            Competition.Tracks.Enqueue(t2);
+            
         }
     }
 }
