@@ -75,7 +75,7 @@ namespace Controller
             Competition.Participants.Add(d1);
             Competition.Participants.Add(d2);
             Competition.Participants.Add(d3);
-            //Competition.Participants.Add(d4);
+            Competition.Participants.Add(d4);
             //Competition.Participants.Add(d5);
             //Competition.Participants.Add(d6);
         }
@@ -95,7 +95,7 @@ namespace Controller
             
             Track t2 = new Track("Spa", sectionst2);
             Competition.Tracks.Enqueue(t1);
-            Competition.Tracks.Enqueue(oostendorp);
+            //Competition.Tracks.Enqueue(oostendorp);
             Competition.Tracks.Enqueue(t2);
             
         }

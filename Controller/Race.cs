@@ -21,7 +21,7 @@ namespace Controller
         {
             Participants = participants;
             Track = track;
-            timer = new Timer(350);
+            timer = new Timer(500);
             timer.Elapsed += OnTimedEvent;
             _random = new Random(DateTime.Now.Millisecond);
             Data.Competition.InitializeBrokenEquipmentAndOvertakenRecord(participants);
@@ -285,7 +285,7 @@ namespace Controller
             }
             if (countStartGrids * 2 < countParticipants)
                 throw new IndexOutOfRangeException("Er zijn te weinig startGrids aanwezig om alle deelneemers te plaatsen");
-            Console.WriteLine(countStartGrids);
+            //Console.WriteLine(countStartGrids);
             int i = 0;
             int k = 1;
             int j = countParticipants;

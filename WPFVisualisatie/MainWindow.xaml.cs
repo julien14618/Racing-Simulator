@@ -11,9 +11,12 @@ namespace WPFVisualisatie
     /// </summary>
     public partial class MainWindow : Window
     {
+        private CompetitionStats competitionStats;
+        private CurrentRaceStats CurrentRaceStats;
+
         public MainWindow()
         {
-            InitializeComponent();
+            
             Data.Initialize();
             Data.NextRace();
             Data.CurrentRace.SetParticipants();
@@ -21,6 +24,7 @@ namespace WPFVisualisatie
             RaceVisualisation.Initialize();
             Data.CurrentRace.DriversChanged += OnDriversChanged;
             Data.CurrentRace.RaceFinished += WPFRaceFinished;
+            InitializeComponent();
             Data.CurrentRace.Start();
         }
 
@@ -38,13 +42,30 @@ namespace WPFVisualisatie
         {
             Data.CurrentRace.DisposeEventHandlers();
             CreateImages.ClearCache();
-            InitializeComponent();
             CreateImages.Initialise();
             RaceVisualisation.Initialize();
             Data.CurrentRace.DriversChanged += OnDriversChanged;
             Data.CurrentRace.RaceFinished += WPFRaceFinished;
             Data.CurrentRace.SetParticipants();
+            InitializeComponent();
             Data.CurrentRace.Start();
+        }
+
+        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void MenuItem_OpenCompetitionStats_Click(object sender, RoutedEventArgs e)
+        {
+            competitionStats = new CompetitionStats();
+            competitionStats.Show();
+        }
+
+        private void MenuItem_OpenCurrentRaceStats_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentRaceStats = new CurrentRaceStats();
+            CurrentRaceStats.Show();
         }
     }
 }
