@@ -16,7 +16,6 @@ namespace WPFVisualisatie
 
         public MainWindow()
         {
-            
             Data.Initialize();
             Data.NextRace();
             Data.CurrentRace.SetParticipants();

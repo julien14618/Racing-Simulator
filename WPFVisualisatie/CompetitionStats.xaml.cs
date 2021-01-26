@@ -21,5 +21,6 @@ namespace WPFVisualisatie
         {
             InitializeComponent();
         }
+
     }
 }

@@ -3,11 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
+using System.Runtime.InteropServices;
 
 namespace Controller
 {
     public class Race
     {
+        [DllImport("msvcrt.dll")]
+        static extern bool system(string str);
+
         private Timer timer;
 
         public event EventHandler<DriversChangedEventArgs> DriversChanged;
@@ -76,6 +80,8 @@ namespace Controller
                     Data.Competition.printResults();
                     Data.Competition.PrintBrokenEquipmentResults();
                     Data.Competition.PrintDriversOvertakenResults();
+                    //system("pause");
+                    
                 }
                 else
                 {

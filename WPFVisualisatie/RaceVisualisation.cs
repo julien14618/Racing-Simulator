@@ -29,7 +29,6 @@ namespace WPFVisualisatie
         #endregion imagePaths
 
         private static List<TrackPiece> trackPieces;
-        private static int minX = 0, minY = 0;
 
         public static void Initialize()
         {
@@ -87,7 +86,7 @@ namespace WPFVisualisatie
         {
             Bitmap localDrawnTrack = drawnTrack;
             Graphics g = Graphics.FromImage(localDrawnTrack);
-            int x = 1440, y = 1440;
+            
             Bitmap car;
             Bitmap rotatedCar;
             bool brokenCar;
@@ -188,57 +187,60 @@ namespace WPFVisualisatie
 
         private static void FillTrackPieces(LinkedList<Section> sections)
         {
-            Race currentRace = Data.CurrentRace;
-            int direction = 1;
-            int x = 1440, y = 1440;
-            trackPieces.Clear();
-            foreach (Section s in sections)
+            if (Data.CurrentRace != null)
             {
-                switch (s.SectionType)
+                Race currentRace = Data.CurrentRace;
+                int direction = 1;
+                int x = 1440, y = 1440;
+                trackPieces.Clear();
+                foreach (Section s in sections)
                 {
-                    case SectionTypes.StartGrid:
-                        trackPieces.Add(new TrackPiece(currentRace.GetSectionData(s), x, y, _start, direction));
-                        break;
+                    switch (s.SectionType)
+                    {
+                        case SectionTypes.StartGrid:
+                            trackPieces.Add(new TrackPiece(currentRace.GetSectionData(s), x, y, _start, direction));
+                            break;
 
-                    case SectionTypes.Straight:
-                        trackPieces.Add(new TrackPiece(currentRace.GetSectionData(s), x, y, _straight, direction));
-                        break;
+                        case SectionTypes.Straight:
+                            trackPieces.Add(new TrackPiece(currentRace.GetSectionData(s), x, y, _straight, direction));
+                            break;
 
-                    case SectionTypes.RightCorner:
-                        trackPieces.Add(new TrackPiece(currentRace.GetSectionData(s), x, y, _corner, direction));
-                        direction++;
-                        direction %= 4;
-                        break;
+                        case SectionTypes.RightCorner:
+                            trackPieces.Add(new TrackPiece(currentRace.GetSectionData(s), x, y, _corner, direction));
+                            direction++;
+                            direction %= 4;
+                            break;
 
-                    case SectionTypes.LeftCorner:
-                        trackPieces.Add(new TrackPiece(currentRace.GetSectionData(s), x, y, _corner, direction, true));
-                        direction -= 1;
-                        direction %= 4;
-                        if (direction < 0)
-                            direction = 3;
-                        break;
+                        case SectionTypes.LeftCorner:
+                            trackPieces.Add(new TrackPiece(currentRace.GetSectionData(s), x, y, _corner, direction, true));
+                            direction -= 1;
+                            direction %= 4;
+                            if (direction < 0)
+                                direction = 3;
+                            break;
 
-                    case SectionTypes.Finish:
-                        trackPieces.Add(new TrackPiece(currentRace.GetSectionData(s), x, y, _finish, direction));
-                        break;
-                }
-                switch (direction)
-                {
-                    case 0:
-                        y -= 240;
-                        break;
+                        case SectionTypes.Finish:
+                            trackPieces.Add(new TrackPiece(currentRace.GetSectionData(s), x, y, _finish, direction));
+                            break;
+                    }
+                    switch (direction)
+                    {
+                        case 0:
+                            y -= 240;
+                            break;
 
-                    case 1:
-                        x += 240;
-                        break;
+                        case 1:
+                            x += 240;
+                            break;
 
-                    case 2:
-                        y += 240;
-                        break;
+                        case 2:
+                            y += 240;
+                            break;
 
-                    case 3:
-                        x -= 240;
-                        break;
+                        case 3:
+                            x -= 240;
+                            break;
+                    }
                 }
             }
         }

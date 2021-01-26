@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace ControllerTest
 {
     [TestFixture]
-    public class Model_Competition_NextTrackShould
+    public class Model_Competition
     {
         private Competition _competition;
 
@@ -32,7 +32,7 @@ namespace ControllerTest
         [Test]
         public void NextTrack_TwoInQueue_ReturnNextTrack()
         {
-            
+
             Track t2 = new Track("Karel", null);
             Track t3 = new Track("Henk", null);
             _competition.Tracks.Enqueue(t2);
@@ -42,6 +42,20 @@ namespace ControllerTest
             var result2 = _competition.NextTrack();
             Assert.AreEqual(t3, result2);
         }
-        
+        [Test]
+        public void Test_PointsPerParticipant()
+        {
+            Driver d1 = new Driver();
+            d1.Points = 1;
+            d1.Name = "Gerard";
+            Driver d2 = new Driver();
+            d2.Points = 2;
+            d2.Name = "Henk";
+            _competition.PointsPerParticipant._list.Add(new PointsPerParticipant(new Driver(), 1));
+            _competition.PointsPerParticipant._list.Add(new PointsPerParticipant(new Driver(), 2));
+            Assert.AreEqual(_competition.PointsPerParticipant.GetBestDriver(), d2.Name);
+        }
+
+
     }
 }
