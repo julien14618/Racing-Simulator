@@ -9,8 +9,6 @@ namespace Controller
 {
     public class Race
     {
-        [DllImport("msvcrt.dll")]
-        static extern bool system(string str);
 
         private Timer timer;
 
@@ -80,7 +78,7 @@ namespace Controller
                     Data.Competition.printResults();
                     Data.Competition.PrintBrokenEquipmentResults();
                     Data.Competition.PrintDriversOvertakenResults();
-                    //system("pause");
+                    
                     
                 }
                 else

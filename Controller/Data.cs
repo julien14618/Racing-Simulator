@@ -95,8 +95,9 @@ namespace Controller
             
             Track t2 = new Track("Spa", sectionst2);
             Competition.Tracks.Enqueue(t1);
-            //Competition.Tracks.Enqueue(oostendorp);
             Competition.Tracks.Enqueue(t2);
+            Competition.Tracks.Enqueue(oostendorp);
+            
             
         }
     }
