@@ -267,16 +267,6 @@ namespace Controller
             return returnSection;
         }
 
-        public void RandomizeEquipment()
-        {
-            foreach (Driver d in Participants)
-            {
-                Random r1 = new Random();
-                d.Equipment.Quality = r1.Next();
-                d.Equipment.Performance = r1.Next();
-            }
-        }
-
         public void SetParticipants()
         {
             List<IParticipant> orderedParticipants = Participants.OrderBy(i => i.StartPosition).ToList(); //index 0 is de hoogste aantal punten

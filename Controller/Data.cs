@@ -78,6 +78,7 @@ namespace Controller
             Competition.Participants.Add(d4);
             //Competition.Participants.Add(d5);
             //Competition.Participants.Add(d6);
+            
         }
 
         public static void AddTrack()
