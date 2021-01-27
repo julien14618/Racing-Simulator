@@ -11,7 +11,7 @@ namespace WPFVisualisatie
 {
     public static class CreateImages
     {
-        static private Dictionary<string, Bitmap> imageCache;
+        static public Dictionary<string, Bitmap> imageCache;
 
         public static void Initialise()
         {

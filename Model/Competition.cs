@@ -25,16 +25,13 @@ namespace Model
                 Console.WriteLine($"{v.Driver.Name} got {v.Points} points");
             }
 
-            Console.WriteLine($"Points Race has ended and the Winner is: {PointsPerParticipant.GetBestDriver()}");
-            Console.WriteLine($"Best time {TimePerParticipant.GetBestDriver()}");
+            Console.WriteLine($"Points Race has ended and the Winner is: {PointsPerParticipant.GetBestDriver()}");           
             Console.WriteLine($"Most equipmentfails {FailedEquipmentPerParticipant.GetBestDriver()}");
             Console.WriteLine($"Driver that has overtaken most other drivers {DriversOvertaken.GetBestDriver()}");
+            Console.WriteLine($"Best Section time {PointsPerParticipant.GetBestDriver()}");
         }
 
-        //public string PrintBestDriver(List<IParticipant> participants)
-        //{
-        //    return PointsPerParticipant.GetBestDriver(participants);
-        //}
+        
 
         public void PrintTimedResults()
         {

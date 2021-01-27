@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Controller", "Controller\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControllerTest", "ControllerTest\ControllerTest.csproj", "{4AECD244-D973-4EA7-8205-CEFC4E21F5EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFVisualisatie", "WPFVisualisatie\WPFVisualisatie.csproj", "{17056C3A-E043-44A3-9133-58F83A668517}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFVisualisatie", "WPFVisualisatie\WPFVisualisatie.csproj", "{17056C3A-E043-44A3-9133-58F83A668517}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFVisualisationTest", "WPFVisualisationTest\WPFVisualisationTest.csproj", "{8097A2ED-EE13-4AEC-A352-5393FBF4A8A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{17056C3A-E043-44A3-9133-58F83A668517}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17056C3A-E043-44A3-9133-58F83A668517}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17056C3A-E043-44A3-9133-58F83A668517}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8097A2ED-EE13-4AEC-A352-5393FBF4A8A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8097A2ED-EE13-4AEC-A352-5393FBF4A8A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8097A2ED-EE13-4AEC-A352-5393FBF4A8A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8097A2ED-EE13-4AEC-A352-5393FBF4A8A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

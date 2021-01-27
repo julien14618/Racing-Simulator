@@ -31,15 +31,15 @@ namespace ControllerTest
         [Test]
         public void TestAddTrack()
         {
-            Assert.AreEqual(Data.Competition.Tracks.Count, 3);
-            Assert.AreEqual(Data.Competition.Tracks.Peek().Name, "Zandvoort");
+            Assert.AreEqual(Data.Competition.Tracks.Count, 2);
+            Assert.AreEqual(Data.Competition.Tracks.Peek().Name, "Oostendorp");
             Data.NextRace();
         }
         [Test]
         public void TestNextTrack()
         {
             Data.NextRace();
-            Assert.AreEqual(Data.Competition.Tracks.Peek().Name, "Spa");
+            Assert.AreEqual(Data.Competition.Tracks.Peek().Name, "Zandvoort");
         }
     }
 }

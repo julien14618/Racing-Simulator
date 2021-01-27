@@ -28,7 +28,7 @@ namespace WPFVisualisatie
 
         #endregion imagePaths
 
-        private static List<TrackPiece> trackPieces;
+        public static List<TrackPiece> trackPieces;
 
         public static void Initialize()
         {
@@ -185,7 +185,7 @@ namespace WPFVisualisatie
             return car;
         }
 
-        private static void FillTrackPieces(LinkedList<Section> sections)
+        public static void FillTrackPieces(LinkedList<Section> sections)
         {
             if (Data.CurrentRace != null)
             {
